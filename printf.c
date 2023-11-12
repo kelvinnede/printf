@@ -1,45 +1,49 @@
-#include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
 #include <stdio.h>
+
 /**
  * _printf - Custom printf function
  * @format: Format string
  *
  * Return: Number of characters printed (excluding the null byte)
  */
-
 int _printf(const char *format, ...)
 {
 	va_list args;
-	int count = 0, num_length;
-	char c, *str = NULL, num_str[12];
+	int count = 0;
 
 	va_start(args, format);
 
 	while (*format)
 	{
-		if (*format == '%' && (*(format + 1) == 'c' || *(format + 1) == 's'))
+		if (*format == '%' && *(format + 1))
 		{
-			if (*(format + 1) == 'c')
-				count += write(1, &c, 1);
-			else
-				str = va_arg(args, char*), count += write(1, str, 0);
-			format += 2;
-		}
-		else if (*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
-		{
-			num_length = snprintf(num_str, sizeof(num_str), "%d", va_arg(args, int));
-			count += write(1, num_str, num_length);
-			format += 2;
-		}
-		else if (*format == '%' && *(format + 1) == '%')
-		{
-			count += write(1, "%", 1);
-			format += 2;
+			format++;
+			switch (*format)
+			{
+				case 'c':
+					count += write(1, &va_arg(args, int), 1);
+					break;
+				case 's':
+					count += write(1, va_arg(args, char*), 0);
+					break;
+				case 'd':
+				case 'i':
+					count += dprintf(1, "%d", va_arg(args, int));
+					break;
+				case '%':
+					count += write(1, "%", 1);
+					break;
+				default:
+					count += write(1, "%", 1) + write(1, format, 1);
+			}
 		}
 		else
-			count += write(1, format++, 1);
+		{
+			count += write(1, format, 1);
+		}
+		format++;
 	}
 
 	va_end(args);
