@@ -22,7 +22,11 @@ int _printf(const char *format, ...)
 		{
 			/* Handle %c and %s cases */
 			if (*(format + 1) == 'c')
-				count += write(1, &va_arg(args, int), 1);
+			{
+				char c = (char)va_arg(args, int);
+
+				count += write(1, &c, 1);
+			}
 			else if (*(format + 1) == 's')
 			{
 				char *str = va_arg(args, char*);
