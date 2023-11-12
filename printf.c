@@ -1,8 +1,7 @@
-/* printf.c */
-
 #include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
+#include <string.h>	/* Include string.h for strlen */
 
 /**
  * _printf - Custom printf function
@@ -21,10 +20,9 @@ int _printf(const char *format, ...)
 	{
 		if (*format == '%' && (*(format + 1) == 'c' || *(format + 1) == 's'))
 		{
-			int c = va_arg(args, int);
-
+			/* Handle %c and %s cases */
 			if (*(format + 1) == 'c')
-				count += write(1, &c, 1);
+				count += write(1, &va_arg(args, int), 1);
 			else if (*(format + 1) == 's')
 			{
 				char *str = va_arg(args, char*);
@@ -36,11 +34,13 @@ int _printf(const char *format, ...)
 		}
 		else if (*format == '%' && *(format + 1) == '%')
 		{
+			/* Handle %% case */
 			count += write(1, "%", 1);
 			format += 2;
 		}
 		else
 		{
+			/* Regular character, just print it */
 			count += write(1, format, 1);
 			format++;
 		}
