@@ -21,9 +21,20 @@ int _printf(const char *format, ...)
 		if (*format == '%' && (*(format + 1) == 'c' || *(format + 1) == 's'))
 		{
 			if (*(format + 1) == 'c')
-				count += write(1, (char[]){(char)va_arg(args, int)}, 1);
+			{
+				char c = (char)va_arg(args, int);
+				char char_array[2];
+
+				char_array[0] = c;
+				char_array[1] = '\0';
+				count += write(1, char_array, 1);
+			}
 			else if (*(format + 1) == 's')
-				count += write(1, va_arg(args, char*), strlen(va_arg(args, char*)));
+			{
+				char *str = va_arg(args, char *);
+
+				count += write(1, str, strlen(str));
+			}
 
 			format += 2;
 		}
