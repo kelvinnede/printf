@@ -1,12 +1,14 @@
+#define _GNU_SOURCE
 #include "main.h"
-#include <stdarg.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdarg.h>
+
 /**
- * _printf - Custom printf function
- * @format: Format string
+ * _printf - Custom printf function.
+ * @format: Format string containing format specifiers.
  *
- * Return: Number of characters printed (excluding the null byte)
+ * Return: The number of characters printed.
  */
 int _printf(const char *format, ...)
 {
@@ -23,7 +25,7 @@ int _printf(const char *format, ...)
 			if (*(format + 1) == 'c')
 				count += write(1, &c, 1);
 			else
-				str = va_arg(args, char*), count += write(1, str, 0);
+				str = va_arg(args, char *), count += write(1, str, 0);
 			format += 2;
 		}
 		else if (*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
