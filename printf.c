@@ -1,4 +1,4 @@
-#include "main.h"
+include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -8,6 +8,7 @@
  *
  * Return: Number of characters printed (excluding the null byte)
  */
+
 int _printf(const char *format, ...)
 {
 	va_list args;
