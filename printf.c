@@ -1,7 +1,6 @@
 #include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
-#include <stdio.h>
 
 /**
  * _putchar - Write a character to stdout
@@ -34,42 +33,63 @@ int _puts(char *str)
 }
 
 /**
- * _printf - Custom printf function.
- * @format: Format string containing format specifiers.
+ * _print_binary - Print the binary representation of an unsigned integer
+ * @n: The unsigned integer to convert and print
  *
- * Return: The number of characters printed.
+ * Return: Number of characters printed (excluding null byte)
+ */
+int _print_binary(unsigned int n)
+{
+	int count = 0;
+
+	if (n / 2)
+		count += _print_binary(n / 2);
+
+	return (_putchar((n % 2) + '0') + count);
+}
+
+/**
+ * _printf - Custom printf function
+ * @format: Format string
+ *
+ * Return: Number of characters printed (excluding null byte)
  */
 int _printf(const char *format, ...)
 {
 	va_list args;
-	int count = 0, num_length;
-	char c, *str = NULL, num_str[12];
+	int count = 0;
 
 	va_start(args, format);
 
 	while (*format)
 	{
-		if (*format == '%' && (*(format + 1) == 'c' || *(format + 1) == 's'))
+		if (*format == '%' && (*(format + 1) == 'c' || *(format + 1) == 's' || *(format + 1) == '%' || *(format + 1) == 'b'))
 		{
-			if (*(format + 1) == 'c')
-				count += write(1, &c, 1);
-			else
-				str = va_arg(args, char *), count += write(1, str, 0);
-			format += 2;
-		}
-		else if (*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
-		{
-			num_length = snprintf(num_str, sizeof(num_str), "%d", va_arg(args, int));
-			count += write(1, num_str, num_length);
-			format += 2;
-		}
-		else if (*format == '%' && *(format + 1) == '%')
-		{
-			count += write(1, "%", 1);
-			format += 2;
+			format++; /* Move to the conversion specifier */
+			switch (*format)
+			{
+				case 'c':
+					count += _putchar(va_arg(args, int));
+					break;
+				case 's':
+					count += _puts(va_arg(args, char *));
+					break;
+				case '%':
+					count += _putchar('%');
+					break;
+				case 'b':
+					count += _print_binary(va_arg(args, unsigned int));
+					break;
+				default:
+					count += _putchar('%');
+					count += _putchar(*format);
+			}
 		}
 		else
-			count += write(1, format++, 1);
+		{
+			count += _putchar(*format);
+		}
+		format++;
 	}
 
 	va_end(args);
