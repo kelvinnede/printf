@@ -1,38 +1,8 @@
 #define _GNU_SOURCE
 #include "main.h"
-#include <stdarg.h>
 #include <unistd.h>
 #include <stdio.h>
-
-/**
- * _putchar - Write a character to stdout
- * @c: The character to print
- *
- * Return: 1 (success), -1 (error)
- */
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
-
-/**
- * _puts - Write a string to stdout
- * @str: The string to print
- *
- * Return: Number of characters printed (excluding null byte)
- */
-int _puts(char *str)
-{
-	int count = 0;
-
-	while (*str)
-	{
-		count += _putchar(*str);
-		str++;
-	}
-
-	return (count);
-}
+#include <stdarg.h>
 
 /**
  * _printf - Custom printf function.
@@ -53,9 +23,9 @@ int _printf(const char *format, ...)
 		if (*format == '%' && (*(format + 1) == 'c' || *(format + 1) == 's'))
 		{
 			if (*(format + 1) == 'c')
-				count += _putchar(va_arg(args, int));
+				count += write(1, &c, 1);
 			else
-				str = va_arg(args, char *), count += _puts(str);
+				str = va_arg(args, char *), count += write(1, str, 0);
 			format += 2;
 		}
 		else if (*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
@@ -66,15 +36,14 @@ int _printf(const char *format, ...)
 		}
 		else if (*format == '%' && *(format + 1) == '%')
 		{
-			count += _putchar('%');
+			count += write(1, "%", 1);
 			format += 2;
 		}
 		else
-			count += _putchar(*format++);
+			count += write(1, format++, 1);
 	}
 
 	va_end(args);
 
 	return (count);
 }
-
