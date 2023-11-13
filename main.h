@@ -6,6 +6,8 @@
 int _printf(const char *format, ...);
 int _putchar(char c);
 int _puts(char *str);
+void print_binary(unsigned int num);
+int count_binary_digits(unsigned int num);
 
 #endif /* MAIN_H */
 
