@@ -1,7 +1,7 @@
 #define _GNU_SOURCE
 #include "main.h"
-#include <stdio.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <stdarg.h>
 
 /**
@@ -20,21 +20,24 @@ int _printf(const char *format, ...)
 
 	while (*format)
 	{
-		if ((*format == 'd' || *format == 'i'))
+		if (*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
 		{
-			int num = va_arg(args, int);
-
-			num_length = snprintf(num_str, sizeof(num_str), "%d", num);
+			num_length = snprintf(num_str, sizeof(num_str), "%d", va_arg(args, int));
 
 			count += write(1, num_str, num_length);
-			format++;
+			format += 2;
 		}
-		else if (*format == 'b')
+		else if (*format == '%' && *(format + 1) == 'b')
 		{
 			unsigned int num = va_arg(args, unsigned int);
 
 			print_binary(num);
-			format++;
+			format += 2;
+		}
+		else if (*format == '%' && *(format + 1) == '%')
+		{
+			count += write(1, "%", 1);
+			format += 2;
 		}
 		else
 		{
@@ -55,8 +58,9 @@ void print_binary(unsigned int num)
 {
 	int size = sizeof(unsigned int) * 8;
 	int binary[32];
+	char binary_str[32];
 
-	int i;
+	int i, count = 0;
 
 	for (i = 0; i < size; i++)
 	{
@@ -66,20 +70,10 @@ void print_binary(unsigned int num)
 
 	for (i = size - 1; i >= 0; i--)
 	{
-		_putchar('0' + binary[i]);
+		binary_str[count++] = binary[i] + '0';
 	}
 
-	_putchar('\n');
-}
+	binary_str[count] = '\0';
 
-/**
- * _putchar - Write a character to the standard output (stdout).
- * @c: The character to write.
- *
- * Return: On success, 1 is returned. On error, -1 is returned.
- */
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
+	write(1, binary_str, count);
 }
-
