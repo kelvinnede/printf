@@ -1,5 +1,8 @@
-#include <stdarg.h>
+#define _GNU_SOURCE
+#include "main.h"
+#include <unistd.h>
 #include <stdio.h>
+#include <stdarg.h>
 
 /**
  * _printf - Custom printf function with support for %b specifier
