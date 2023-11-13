@@ -49,31 +49,3 @@ int _printf(const char *format, ...)
 
 	return (count);
 }
-
-/**
- * print_binary - Print binary representation of an unsigned integer.
- * @num: Unsigned integer to be printed in binary.
- */
-void print_binary(unsigned int num)
-{
-	int size = sizeof(unsigned int) * 8;
-	int binary[32];
-	char binary_str[32];
-
-	int i, count = 0;
-
-	for (i = 0; i < size; i++)
-	{
-		binary[i] = num % 2;
-		num /= 2;
-	}
-
-	for (i = size - 1; i >= 0; i--)
-	{
-		binary_str[count++] = binary[i] + '0';
-	}
-
-	binary_str[count] = '\0';
-
-	write(1, binary_str, count);
-}
