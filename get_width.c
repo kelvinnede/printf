@@ -5,6 +5,7 @@
  * @format: The format defines the Formatted string
  * in which to print the arguments
  * @i: This parameter list of arguments to be printed.
+ * @list: This argument handles lists.
  *
  * Return: Returns the exanct width.
  */
