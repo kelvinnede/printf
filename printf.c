@@ -35,13 +35,6 @@ int _printf(const char *format, ...)
 			count += write(1, num_str, num_length);
 			format += 2;
 		}
-		else if (*format == '%' && *(format + 1) == 'b')
-		{
-			unsigned int num = va_arg(args, unsigned int);
-
-			count += print_binary(num);
-			format += 2;
-		}
 		else if (*format == '%' && *(format + 1) == '%')
 		{
 			count += write(1, "%", 1);
