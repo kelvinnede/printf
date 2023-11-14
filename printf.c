@@ -24,9 +24,11 @@ int _printf(const char *format, ...)
 		{
 			if (*(format + 1) == 'c')
 				count += write(1, &c, 1);
-			else
+			else 
+			{
 				str = va_arg(args, char *), count += write(1, str, 0);
-			format += 2;
+				format += 2;
+			}
 		}
 		else if (*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
 		{
