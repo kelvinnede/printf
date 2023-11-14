@@ -13,8 +13,8 @@
 int _printf(const char *format, ...)
 {
 		va_list args;
-		int count = 0, num_length;
-		char c, *str = NULL, num_str[12];
+		int count = 0;
+		char c, *str = NULL;
 
 		va_start(args, format);
 
@@ -34,7 +34,7 @@ int _printf(const char *format, ...)
 			}
 			else
 			{
-				count = count
+				count = count;
 			}
 			format += 2;
 		}
