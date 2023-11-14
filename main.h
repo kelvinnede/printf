@@ -7,22 +7,22 @@
 #define UNUSED(x) (void)(x)
 #define BUFF_SIZE 1024
 
-/* FLAGS */
+/* DEFINE FLAGS */
 #define F_MINUS 1
 #define F_PLUS 2
 #define F_ZERO 4
 #define F_HASH 8
 #define F_SPACE 16
 
-/* SIZES */
+/* DEFINE SIZES */
 #define S_LONG 2
 #define S_SHORT 1
 
 /**
- * struct fmt - Struct op
+ * struct fmt -The Function struct op
  *
- * @fmt: The format.
- * @fn: The function associated.
+ * @fmt: This handles The output format.
+ * @fn: The function.
  */
 struct fmt
 {
@@ -92,7 +92,7 @@ int print_reverse(va_list types, char buffer[],
 int print_rot13string(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
-/* width handler */
+/* prototype for width handler */
 int handle_write_char(char c, char buffer[],
 	int flags, int width, int precision, int size);
 int write_number(int is_positive, int ind, char buffer[],
@@ -106,7 +106,7 @@ int write_unsgnd(int is_negative, int ind,
 char buffer[],
 	int flags, int width, int precision, int size);
 
-/****************** UTILS ******************/
+/****************** UTILS prototypes ******************/
 int is_printable(char);
 int append_hexa_code(char, char[], int);
 int is_digit(char);
