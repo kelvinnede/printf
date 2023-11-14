@@ -21,10 +21,30 @@ int basic_printf(const char *format, ...)
 
 	while (*format)
 	{
-		/* Handle %c, %s, and %% */
-		/* ... */
+	if (*format == '%' && (*(format + 1) == 'c' || *(format + 1) == 's'))
+	{
+		if (*(format + 1) == 'c')
+		{
+			char c = va_arg(args, int);
 
-		format++;
+			count += write(1, &c, 1);
+		}
+		else
+		{
+			char *str = va_arg(args, char *);
+
+			count += write(1, str, 0);
+		}
+		format += 2;
+	}
+	else if (*format == '%' && *(format + 1) == '%')
+	{
+		count += write(1, "%", 1);
+		format += 2;
+	}
+	else
+	{
+		count += write(1, format++, 1);
 	}
 
 	va_end(args);
